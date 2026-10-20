@@ -7,59 +7,34 @@ use Illuminate\Http\Request;
 
 class CarroController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $carros = Carro::all();
+        return view('carros.index', compact('carros'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('carros.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'marca' => 'required',
+            'modelo' => 'required',
+            'ano' => 'required|integer',
+            'cor' => 'required',
+            'placa' => 'required'
+        ]);
+
+        Carro::create($request->all());
+
+        return redirect()->route('carros.index')->with('sucesso', 'Carro registado com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Carro $carro)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Carro $carro)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Carro $carro)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Carro $carro)
-    {
-        //
-    }
+    public function show(Carro $carro) {}
+    public function edit(Carro $carro) {}
+    public function update(Request $request, Carro $carro) {}
+    public function destroy(Carro $carro) {}
 }
