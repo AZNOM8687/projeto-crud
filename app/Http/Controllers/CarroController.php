@@ -1,24 +1,9 @@
-<?php
-
-namespace App\Http\Controllers;
-
-use App\Models\Carro;
-use Illuminate\Http\Request;
-
-class CarroController extends Controller
-{
-    public function index()
+public function edit(Carro $carro)
     {
-        $carros = Carro::all();
-        return view('carros.index', compact('carros'));
+        return view('carros.edit', compact('carro'));
     }
 
-    public function create()
-    {
-        return view('carros.create');
-    }
-
-    public function store(Request $request)
+    public function update(Request $request, Carro $carro)
     {
         $request->validate([
             'marca' => 'required',
@@ -28,13 +13,14 @@ class CarroController extends Controller
             'placa' => 'required'
         ]);
 
-        Carro::create($request->all());
+        $carro->update($request->all());
 
-        return redirect()->route('carros.index')->with('sucesso', 'Carro registado com sucesso!');
+        return redirect()->route('carros.index')->with('sucesso', 'Carro atualizado com sucesso!');
     }
 
-    public function show(Carro $carro) {}
-    public function edit(Carro $carro) {}
-    public function update(Request $request, Carro $carro) {}
-    public function destroy(Carro $carro) {}
-}
+    public function destroy(Carro $carro)
+    {
+        $carro->delete();
+        return redirect()->route('carros.index')->with('sucesso', 'Carro apagado com sucesso!');
+    }
+} // Fecho final do controlador
